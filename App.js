@@ -3,10 +3,10 @@ import { View } from 'react-native';
 
 export default function App() {
   return (
-    <View>
-      <View></View>
-      <View></View>
-      <View></View>
+    <View style={{flex: 1}}>
+      <View style={{flex: 1, backgroundColor: "tomato"}}></View>
+      <View style={{flex: 1, backgroundColor: "teal"}}></View>
+      <View style={{flex: 1, backgroundColor: "orange"}}></View>
     </View>
   );
 }
