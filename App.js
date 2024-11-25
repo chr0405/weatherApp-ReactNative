@@ -4,6 +4,19 @@ import { View, Text, StyleSheet, ScrollView, ActivityIndicator,
   Dimensions
 } from 'react-native';
 import * as Location from 'expo-location';
+import { Ionicons } from '@expo/vector-icons';
+import Fontisto from '@expo/vector-icons/Fontisto';
+
+// 날씨 아이콘
+const icons = {
+  Clear: "day-sunny",
+  Clouds: "cloudy",
+  Rain: "rain",
+  Atmosphere: "cloudy-gusts",
+  Snow: "snow",
+  Drizzle: "day-rain",
+  Thunderstorm: "lightning",
+}
 
 // 휴대폰 화면 가로 길이를 측정
 const windowWidth = Dimensions.get('window').width;
@@ -56,7 +69,7 @@ export default function App() {
       <StatusBar backgroundColor="black"></StatusBar>
 
       <View style={styles.city}>
-      
+        <Text style={styles.cityText}>Current location</Text>
         <Text style={styles.cityName}>{city} {district}</Text>
       
       </View>
@@ -77,10 +90,24 @@ export default function App() {
           // 날씨 정보를 불러왔다면
           (
             days.map((day, index) => 
-              <View key={index} style={styles.day}>
-                <Text style={styles.temperture}>{parseFloat(day.main.temp).toFixed(1)}</Text>
-                <Text style={styles.description}>{day.weather[0].main}</Text>
-                <Text style={styles.tinyDescription}>{day.weather[0].description}</Text>
+              <View key={index} style={{ ...styles.day}}>
+
+                  <View style={{flexDirection: "row",
+                    alignItems: "center",
+                    justifyContent: "center"}}>
+                    <Text style={styles.temperture}>{parseFloat(day.main.temp).toFixed(1)}</Text>
+                    <Fontisto name= {icons[day.weather[0].main]} size={80} color="black" style={{marginLeft: "30"}}/>
+                  </View>
+
+                  <View style={{alignItems: "center",
+                    justifyContent: "center"}}>
+                    <Text style={styles.description}>{day.weather[0].main}</Text>
+                    <Text style={styles.tinyDescription}>{day.weather[0].description}</Text>
+                    {index !== 4 && (
+                    <Text style={styles.goToNextForecast}>Slide to see the next weather forecast →</Text>
+                    )}
+                  </View>
+                
               </View>
             )
           )
@@ -96,7 +123,7 @@ const styles = StyleSheet.create({
 
   container: {
     flex: 1,
-    backgroundColor: "#DAA520",
+    backgroundColor: "#ADD8E6",
   },
 
   city: {
@@ -104,7 +131,12 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center"
   },
+  cityText: {
+    fontSize: 20,
+    color: "#6C757D",
+  },
   cityName: {
+    marginTop: 10,
     fontSize: 40,
     fontWeight: 500,
   },
@@ -113,20 +145,24 @@ const styles = StyleSheet.create({
   },
   day: {
     width: windowWidth,
-    // alignItems: "center",
-    left: 30,
   },
   temperture: {
     fontSize: 100,
     marginTop: 60,
+    left: 30,
   },
   description: {
-    fontSize: 60,
-    marginTop: -30,
+    fontSize: 40,
+    marginTop: -10,
   },
   tinyDescription: {
     fontSize: 20,
-    marginTop: -10,
+    color: "#6C757D",
+  },
+  goToNextForecast: {
+    fontSize: 15,
+    top: 120,
+    color: "#6C757D",
   },
 
 })
